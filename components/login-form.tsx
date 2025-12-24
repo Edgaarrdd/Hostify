@@ -66,15 +66,13 @@ export function LoginForm({
         {/* Encabezado*/}
         <div className="text-center">
           <Image
-            alt="Logo Hotel"
+            alt="Hostify Logo"
             className="w-48 h-auto mx-auto"
-            src="/img/logosinletras.png"
+            src="/img/hostify-logo.png"
             width={192}
-            height={108}
+            height={192}
           />
-          <h1 className="mt-4 text-3xl font-bold text-zinc-900 dark:text-white">
-            Hotel
-          </h1>
+
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             Bienvenido al sistema de gestión
           </p>
