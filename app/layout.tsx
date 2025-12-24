@@ -12,7 +12,7 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Hotel - Sistema de Gestión",
+  title: "Hostify - Sistema de Gestión",
   description: "Sistema de gestión de hoteles",
 };
 
@@ -29,7 +29,8 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-
+        <link rel="icon" href="/img/hostify-logo.png" />
+        <link rel="apple-touch-icon" href="/img/hostify-logo.png" />
       </head>
       <body className={`${workSans.className} antialiased`} suppressHydrationWarning={true}>
         <ThemeProvider

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { LogoutButton } from "./logout-button";
 import { LayoutDashboard, Calendar, BedDouble, Users, BarChart3, CreditCard, User, Bot, Tag } from "lucide-react";
+import Image from "next/image";
 
 const navigationItems = [
   { name: "Dashboard", href: "/protected", icon: LayoutDashboard },
@@ -53,9 +54,15 @@ export function Sidebar({
   return (
     <aside className="w-64 flex-shrink-0 bg-content-light dark:bg-content-dark hidden lg:flex flex-col border-r border-border-light dark:border-border-dark h-full">
       <div className="flex-1 overflow-y-auto p-6">
-        <div className="flex items-center gap-2 mb-8">
-          <BedDouble className="text-primary w-8 h-8" />
-          <h1 className="text-xl font-bold text-text-light dark:text-text-dark">Hotel</h1>
+        <div className="flex items-center gap-3 mb-8">
+          <Image
+            src="/img/hostify-logo.png"
+            alt="Hostify Logo"
+            width={40}
+            height={40}
+            className="object-contain"
+          />
+          <h1 className="text-2xl font-bold text-text-light dark:text-text-dark">HOSTIFY</h1>
         </div>
 
         <nav className="flex flex-col gap-2">
