@@ -3,12 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { Guest } from "@/components/reservas/guest-form";
-<<<<<<< HEAD
-import { sendReservationEmail } from "@/lib/email";
-=======
-import { toZonedTime, format } from "date-fns-tz";
 import { sendReservationEmail } from "@/lib/services/email";
->>>>>>> eab6217484b48093428b6d0039c51b3e208e30ec
 import { getPriceBreakdown } from "@/lib/utils/pricing";
 import { GuestRepository } from "@/lib/repositories/guest.repository";
 import { ReservationRepository } from "@/lib/repositories/reservation.repository";
@@ -47,7 +42,6 @@ export async function createReservation(params: CreateReservationParams) {
         // 1. Execute Logic via Service
         const serviceResult = await reservationService.createReservation(params, user?.id);
 
-<<<<<<< HEAD
         // 2. Extract Data for Email Notification
         const {
             reservationId,
@@ -59,168 +53,6 @@ export async function createReservation(params: CreateReservationParams) {
             reservationCode,
             selectedServices
         } = serviceResult;
-=======
-        let guestId = existingGuest?.id;
-
-        if (!guestId) {
-            const { data: newGuest, error: createError } = await supabase
-                .from("guests")
-                .insert({
-                    tipo_documento: responsibleGuest.documentType,
-                    numero_documento: responsibleGuest.documentNumber,
-                    nombre: responsibleGuest.firstName,
-                    apellido: responsibleGuest.lastName,
-                    pais_origen: responsibleGuest.country, // TU CAMBIO (Importante para IA)
-                    ciudad: responsibleGuest.city,
-                    fecha_nacimiento: responsibleGuest.birthDate ? new Date(responsibleGuest.birthDate) : null,
-                    email: responsibleGuest.email,
-                    telefono: responsibleGuest.phone,
-                })
-                .select("id")
-                .single();
-
-            if (createError) throw new Error(`Error creating guest: ${createError.message}`);
-            guestId = newGuest.id;
-        } else {
-            await supabase.from("guests").update({
-                nombre: responsibleGuest.firstName,
-                apellido: responsibleGuest.lastName,
-                pais_origen: responsibleGuest.country, // TU CAMBIO
-                email: responsibleGuest.email,
-                telefono: responsibleGuest.phone,
-            }).eq("id", guestId);
-        }
-
-        // 2. Crear Reservas (Lógica de tus compañeros integrada aquí)
-        const nights = Math.ceil((new Date(dateRange.to).getTime() - new Date(dateRange.from).getTime()) / (1000 * 60 * 60 * 24));
-        const servicesLimit = selectedServices?.reduce((acc, curr) => acc + curr.price, 0) || 0;
-
-        const reservationPromises = selectedRooms.map(async (room, index) => {
-            const isFirstRoom = index === 0;
-            const roomBaseTotal = room.price * nights;
-            const baseTotal = isFirstRoom ? (roomBaseTotal + servicesLimit) : roomBaseTotal;
-            const discountFactor = paymentData.discount ? (1 - paymentData.discount / 100) : 1;
-            const finalTotal = Math.round(baseTotal * discountFactor);
-
-
-            // Calcular IVA
-            const { price_net, iva_amount } = getPriceBreakdown(finalTotal);
-            // Código dinámico y conteo real de huéspedes
-            const dynamicCode = index === 0 ? reservationCode : `${reservationCode}-${index}`;
-            const guestsCount = Object.keys(params.guests).length > 0 && params.guests[room.id]
-                ? params.guests[room.id].filter(g => g.firstName && g.lastName).length || 1
-                : 1;
-
-            const { data: reservation, error } = await supabase.from("reservations").insert({
-                room_id: room.id,
-                huesped_titular_id: guestId,
-                created_by: user?.id,
-                check_in: dateRange.from,
-                check_out: dateRange.to,
-                cantidad_noches: nights,
-                total: finalTotal,
-                subtotal: price_net,
-                iva_amount: iva_amount,
-                status: paymentData.type === 'full' ? 'Confirmada' : 'Pendiente',
-                deposit_amount: paymentData.type === 'full' ? finalTotal : (isFirstRoom ? paymentData.deposit : 0),
-                payment_status: paymentData.type === 'full' ? 'paid' : 'partial',
-                payment_type: paymentData.type,
-                reservation_code: dynamicCode, // Usamos el código dinámico
-                num_guests: guestsCount,       // Usamos el conteo real
-            }).select("id").single();
-
-            if (error) throw new Error(error.message);
-
-            if (isFirstRoom && selectedServices && selectedServices.length > 0 && reservation) {
-                const serviceInserts = selectedServices.map(s => ({
-                    reservation_id: reservation.id, service_id: s.id, unit_price: s.price, quantity: 1
-                }));
-                await supabase.from("reservation_services").insert(serviceInserts);
-            }
-
-            // Guardar huéspedes en la tabla intermedia
-            if (reservation) {
-                try {
-                    const roomGuests = params.guests[room.id] || [];
-                    const guestInserts = [];
-
-                    // Insertar el huésped titular primero
-                    guestInserts.push({
-                        reservation_id: reservation.id,
-                        guest_id: guestId,
-                        rol: 'Titular'
-                    });
-
-                    // Insertar los acompañantes
-                    for (const guest of roomGuests) {
-                        if (guest.firstName && guest.lastName && !guest.isResponsible) {
-                            // Buscar o crear el huésped acompañante
-                            const { data: existingAccGuest } = await supabase
-                                .from("guests")
-                                .select("id")
-                                .eq("tipo_documento", guest.documentType)
-                                .eq("numero_documento", guest.documentNumber)
-                                .single();
-
-                            let accGuestId = existingAccGuest?.id;
-
-                            if (!accGuestId) {
-                                const { data: newAccGuest, error: createError } = await supabase
-                                    .from("guests")
-                                    .insert({
-                                        tipo_documento: guest.documentType,
-                                        numero_documento: guest.documentNumber,
-                                        nombre: guest.firstName,
-                                        apellido: guest.lastName,
-                                        pais_origen: guest.country,
-                                        ciudad: guest.city,
-                                        fecha_nacimiento: guest.birthDate ? new Date(guest.birthDate) : null,
-                                        email: guest.email,
-                                        telefono: guest.phone,
-                                    })
-                                    .select("id")
-                                    .single();
-
-                                if (createError) {
-                                    console.error("Error creating accompanying guest:", createError);
-                                } else {
-                                    accGuestId = newAccGuest?.id;
-                                }
-                            }
-
-                            if (accGuestId) {
-                                guestInserts.push({
-                                    reservation_id: reservation.id,
-                                    guest_id: accGuestId,
-                                    rol: 'Acompañante'
-                                });
-                            }
-                        }
-                    }
-
-                    // Insertar todos los huéspedes en la tabla intermedia
-                    if (guestInserts.length > 0) {
-                        const { error: insertError } = await supabase
-                            .from("reservation_guests_intermedia")
-                            .insert(guestInserts);
-
-                        if (insertError) {
-                            console.error("Error inserting guests into intermedia table:", insertError);
-                        } else {
-                            console.log(`Inserted ${guestInserts.length} guests for reservation ${reservation.id}`);
-                        }
-                    }
-                } catch (guestError) {
-                    console.error("Error processing guests for reservation:", guestError);
-                }
-            }
-
-            return { data: reservation };
-        });
-
-        const results = await Promise.all(reservationPromises);
-        const firstReservationId = results[0]?.data?.id;
->>>>>>> eab6217484b48093428b6d0039c51b3e208e30ec
 
         revalidatePath("/protected/reservas");
 

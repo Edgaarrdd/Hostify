@@ -29,8 +29,8 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/img/hostify-logo.png" />
-        <link rel="apple-touch-icon" href="/img/hostify-logo.png" />
+        <link rel="icon" href="/img/h.png" />
+        <link rel="apple-touch-icon" href="/img/h.png" />
       </head>
       <body className={`${workSans.className} antialiased`} suppressHydrationWarning={true}>
         <ThemeProvider
