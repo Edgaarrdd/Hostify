@@ -10,9 +10,9 @@
     --foreground: 210 15% 10%;
 
     /* Tarjetas y popovers en modo claro */
-    --card: 0 0% 100%;
+    --card: 60 20% 99%;
     --card-foreground: 210 15% 10%;
-    --popover: 0 0% 100%;
+    --popover: 60 20% 99%;
     --popover-foreground: 210 15% 10%;
 
     /* Color primario: #13a4ec */

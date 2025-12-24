@@ -58,8 +58,8 @@ export function Sidebar({
           <Image
             src="/img/hostify-logo.png"
             alt="Hostify Logo"
-            width={64}
-            height={64}
+            width={192}
+            height={192}
             className="object-contain"
           />
         </div>
