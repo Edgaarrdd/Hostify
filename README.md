@@ -6,10 +6,10 @@ Sistema integral de gestión hotelera desarrollado con Next.js 16, React 19 y Su
 
 <div align="center">
   <h3>Inicio de Sesión</h3>
-  <img src="/screenshots/login.png" alt="Login Page" width="800"/>
+  <img src="public/screenshots/login.png" alt="Login Page" width="800"/>
   
   <h3>Dashboard Principal</h3>
-  <img src="/screenshots/dashboard.png" alt="Dashboard" width="800"/>
+  <img src="public/screenshots/dashboard.png" alt="Dashboard" width="800"/>
 </div>
 
 
