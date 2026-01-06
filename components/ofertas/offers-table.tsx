@@ -152,8 +152,8 @@ export function OffersTable({ initialOffers }: OffersTableProps) {
                                         >
                                             <Power
                                                 className={`h-4 w-4 ${offer.status === "active"
-                                                        ? "text-emerald-500"
-                                                        : "text-muted-foreground"
+                                                    ? "text-emerald-500"
+                                                    : "text-muted-foreground"
                                                     }`}
                                             />
                                         </Button>
@@ -173,7 +173,7 @@ export function OffersTable({ initialOffers }: OffersTableProps) {
                                                     <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
                                                     <AlertDialogDescription>
                                                         Esta acción no se puede deshacer. Esto eliminará permanentemente la oferta
-                                                        "{offer.title}".
+                                                        &quot;{offer.title}&quot;.
                                                     </AlertDialogDescription>
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>

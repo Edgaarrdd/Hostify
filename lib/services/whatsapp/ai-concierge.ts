@@ -33,7 +33,7 @@ export async function sendWhatsAppMessage(
     // INTENTO DE REDACCIÓN CON IA (OpenAI)
     // ---------------------------------------------------------
     const systemPrompt = `
-      Eres el concierge del Hotel Duerme Bien. 
+      Eres el concierge del Hotel Duerme Bien (Ubicación: ${hotelAddress}). 
       Huésped: ${guestName} (País: ${country}).
       
       IDIOMA OBLIGATORIO SEGÚN PAÍS:

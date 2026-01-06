@@ -3,15 +3,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
-<<<<<<< HEAD
-import { sendSmartWelcome } from "@/lib/actions/ai-concierge";
+import { sendSmartWelcome } from "@/lib/services/whatsapp/ai-concierge";
 import { ReservationRepository } from "@/lib/repositories/reservation.repository";
 import { GuestRepository } from "@/lib/repositories/guest.repository";
 import { RoomRepository } from "@/lib/repositories/room.repository";
 import { ReservationService } from "@/lib/services/reservation.service";
-=======
-import { sendSmartWelcome } from "@/lib/services/whatsapp/ai-concierge"; // <--- IMPORTAMOS LA IA
->>>>>>> eab6217484b48093428b6d0039c51b3e208e30ec
 
 export type CheckInResult = {
     success: boolean;

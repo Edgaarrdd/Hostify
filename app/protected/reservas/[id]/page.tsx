@@ -88,7 +88,7 @@ export default async function ReservationDetailsPage({
 
     // crea un objeto con la informacion de la reserva
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-8">
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-text-light dark:text-text-dark">Reserva {reservation.reservation_code || 'N/A'}</h1>
@@ -239,8 +239,8 @@ export default async function ReservationDetailsPage({
                                         </td>
                                         <td className="px-4 py-3 text-center">
                                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${item.rol === 'Titular'
-                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                    : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
                                                 }`}>
                                                 {item.rol}
                                             </span>
@@ -296,7 +296,7 @@ export default async function ReservationDetailsPage({
                                     <h3 className="text-sm font-semibold mb-2 text-foreground">Historial de Pagos</h3>
                                     <div className="border rounded-lg overflow-hidden">
                                         <div className="overflow-x-auto">
-                                            <table className="w-full text-left">
+                                            <table className="w-[510px] text-left">
                                                 <thead>
                                                     <tr className="border-b border-border">
                                                         <th className="px-3 py-2 text-sm font-medium text-muted-foreground">Concepto</th>
@@ -380,7 +380,8 @@ export default async function ReservationDetailsPage({
                             )}
                         </div>
 
-                        <div className="w-full md:w-auto bg-gray-50 dark:bg-muted/30 p-4 rounded-lg min-w-[300px]">
+                        <div className=" w-full md:w-auto bg-gray-50 dark:bg-muted/30 p-4 rounded-lg min-w-[320px]">
+                            <h2 className="text-sm font-semibold mb-3 text-foreground">Resumen de pago:</h2>
                             <div className="space-y-1 mb-2 border-b border-gray-200 dark:border-gray-700 pb-2">
                                 <div className="flex justify-between text-sm">
                                     <span className="text-muted-foreground">Precio Habitación:</span>

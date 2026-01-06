@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { createOffer, updateOffer } from "@/lib/actions/offers";
@@ -76,7 +76,7 @@ export function OfferForm({ offer }: OfferFormProps) {
         };
 
     const form = useForm<OfferFormValues>({
-        resolver: zodResolver(offerSchema) as any,
+        resolver: zodResolver(offerSchema) as unknown as Resolver<OfferFormValues>,
         defaultValues,
     });
 
